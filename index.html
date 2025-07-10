@@ -52,23 +52,23 @@
         const input = document.getElementById("playerInput");
         const player = input.value.trim().toLowerCase();
         const gridKeys = {
-            "uc_udechile": ["universidad catolica", "universidad de chile"],
-            "uc_audax": ["universidad catolica", "audax italiano"],
-            "uc_arg": ["universidad catolica", "argentina"],
-            "everton_udechile": ["everton", "universidad de chile"],
-            "everton_audax": ["everton", "audax italiano"],
-            "everton_arg": ["everton", "argentina"],
-            "colo_udechile": ["colo colo", "universidad de chile"],
-            "colo_audax": ["colo colo", "audax italiano"],
-            "colo_arg": ["colo colo", "Argentina"]
+            "uc_udechile": ["Universidad Catolica", "Universidad de Chile"],
+            "uc_audax": ["Universidad Catolica", "Audax Italiano"],
+            "uc_arg": ["Universidad Catolica", "Argentina"],
+            "everton_udechile": ["Everton", "Universidad de Chile"],
+            "everton_audax": ["Everton", "Audax Italiano"],
+            "everton_arg": ["Everton", "Argentina"],
+            "colo_udechile": ["Colo Colo", "Universidad de Chile"],
+            "colo_audax": ["Colo Colo", "Audax Italiano"],
+            "colo_arg": ["Colo Colo", "Argentina"]
         };
 
         let found = false;
         for (const key in gridKeys) {
             const [fila, columna] = gridKeys[key];
             if (!filledCells[key]) {
-                const cumpleFila = datosBase.some(j => j.jugador === player && (j.club === fila || j.nacionalidad === fila));
-                const cumpleColumna = datosBase.some(j => j.jugador === player && (j.club === columna || j.nacionalidad === columna));
+                const cumpleFila = datosBase.some(j => j.jugador === player && (j.club.toLowerCase() === fila.toLowerCase() || j.nacionalidad.toLowerCase() === fila.toLowerCase()));
+                const cumpleColumna = datosBase.some(j => j.jugador === player && (j.club.toLowerCase() === columna.toLowerCase() || j.nacionalidad.toLowerCase() === columna.toLowerCase()));
                 if (cumpleFila && cumpleColumna) {
                     const cell = document.querySelector(`[data-key="${key}"]`);
                     cell.innerText = input.value.trim();
