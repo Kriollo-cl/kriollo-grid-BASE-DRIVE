@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Kriollo Grid - Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fdfdfd;
+            color: #222;
+            text-align: center;
+            padding: 30px;
+        }
+        h1 { color: #004080; }
+        table { margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 2px solid #ccc; padding: 20px; width: 120px; height: 100px; vertical-align: middle; font-weight: bold; }
+        input[type="text"], button { padding: 10px; margin-top: 10px; }
+        button { background: #004080; color: white; border: none; cursor: pointer; }
+        .filled { background-color: #dff0d8; }
+    </style>
+</head>
+<body>
+    <h1>Kriollo Grid (Demo)</h1>
+    <table id="grid">
+        <tr><th></th><th>U. de Chile</th><th>Audax</th><th>Argentino</th></tr>
+        <tr><th>U. Católica</th><td data-key="uc_udechile"></td><td data-key="uc_audax"></td><td data-key="uc_arg"></td></tr>
+        <tr><th>Everton</th><td data-key="everton_udechile"></td><td data-key="everton_audax"></td><td data-key="everton_arg"></td></tr>
+        <tr><th>Colo Colo</th><td data-key="colo_udechile"></td><td data-key="colo_audax"></td><td data-key="colo_arg"></td></tr>
+    </table>
+
+    <input type="text" id="playerInput" placeholder="Ej: Luis Pedro Figueroa"><br>
+    <button onclick="checkPlayer()">Ingresar jugador</button>
+    <p id="message"></p>
+
+<script>
+    let datosBase = [];
+    async function cargarDatos() {
+      const respuesta = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vT32rOLsUW8yxWSoKu_QXVt6uTufTmWTmgCQQ3eRkDfp8BU8e40l9-HCi5YwRJfVw/pub?gid=1432424498&single=true&output=csv');
+      const texto = await respuesta.text();
+      const filas = texto.trim().split('\n').slice(1);
+      
+      filas.forEach(fila => {
+        const [jugador, nacionalidad, club] = fila.split(',');
+        datosBase.push({ jugador: jugador.toLowerCase(), nacionalidad: nacionalidad.toLowerCase(), club: club.toLowerCase() });
+      });
+      console.log('Base cargada:', datosBase);
+    }
+    window.onload = cargarDatos;
+
+    let filledCells = {};
+    function checkPlayer() {
+        const input = document.getElementById("playerInput");
+        const player = input.value.trim().toLowerCase();
+        const gridKeys = {
+            "uc_udechile": ["universidad católica", "universidad de chile"],
+            "uc_audax": ["universidad católica", "audax italiano"],
+            "uc_arg": ["universidad católica", "argentina"],
+            "everton_udechile": ["everton", "universidad de chile"],
+            "everton_audax": ["everton", "audax italiano"],
+            "everton_arg": ["everton", "argentina"],
+            "colo_udechile": ["colo colo", "universidad de chile"],
+            "colo_audax": ["colo colo", "audax italiano"],
+            "colo_arg": ["colo colo", "argentina"]
+        };
+
+        let found = false;
+        for (const key in gridKeys) {
+            const [fila, columna] = gridKeys[key];
+            if (!filledCells[key]) {
+                const cumpleFila = datosBase.some(j => j.jugador === player && (j.club === fila || j.nacionalidad === fila));
+                const cumpleColumna = datosBase.some(j => j.jugador === player && (j.club === columna || j.nacionalidad === columna));
+                if (cumpleFila && cumpleColumna) {
+                    const cell = document.querySelector(`[data-key="${key}"]`);
+                    cell.innerText = input.value.trim();
+                    cell.classList.add("filled");
+                    filledCells[key] = true;
+                    document.getElementById("message").innerText = `✅ ${input.value.trim()} agregado correctamente`;
+                    input.value = "";
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) document.getElementById("message").innerText = `❌ ${input.value.trim()} no cumple requisitos o ya está en uso.`;
+        if (Object.keys(filledCells).length === 9) document.getElementById("message").innerText = "🎉 ¡Grid completado!";
+    }
+</script>
+
+</body>
+</html>
