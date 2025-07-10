@@ -40,8 +40,8 @@
       const filas = texto.trim().split('\n').slice(1);
       
       filas.forEach(fila => {
-        const [jugador, nacionalidad, club] = fila.split(',');
-        datosBase.push({ jugador: jugador.toLowerCase(), nacionalidad: nacionalidad.toLowerCase(), club: club.toLowerCase() });
+        const [jugador, nacionalidad, club] = fila.split(',').map(x => x.trim().toLowerCase());
+        datosBase.push({ jugador, nacionalidad, club });
       });
       console.log('Base cargada:', datosBase);
     }
@@ -52,15 +52,15 @@ function checkPlayer() {
     const input = document.getElementById("playerInput");
     const player = input.value.trim().toLowerCase();
     const gridKeys = {
-        "uc_udechile": ["Universidad Catolica", "Universidad de Chile"],
-        "uc_audax": ["Universidad Catolica", "Audax Italiano"],
-        "uc_arg": ["Universidad Catolica", "Argentina"],
-        "everton_udechile": ["Everton", "Universidad de Chile"],
-        "everton_audax": ["Everton", "Audax Italiano"],
-        "everton_arg": ["Everton", "Argentina"],
-        "colo_udechile": ["Colo Colo", "Universidad de Chile"],
-        "colo_audax": ["Colo Colo", "Audax Italiano"],
-        "colo_arg": ["Colo Colo", "Argentina"]
+        "uc_udechile": ["universidad catolica", "universidad de chile"],
+        "uc_audax": ["universidad catolica", "audax italiano"],
+        "uc_arg": ["universidad catolica", "argentina"],
+        "everton_udechile": ["everton", "universidad de chile"],
+        "everton_audax": ["everton", "audax italiano"],
+        "everton_arg": ["everton", "argentina"],
+        "colo_udechile": ["colo colo", "universidad de chile"],
+        "colo_audax": ["colo colo", "audax italiano"],
+        "colo_arg": ["colo colo", "argentina"]
     };
 
     let found = false;
