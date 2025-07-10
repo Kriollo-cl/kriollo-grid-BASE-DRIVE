@@ -22,8 +22,8 @@
 <body>
     <h1>Kriollo Grid (Demo)</h1>
     <table id="grid">
-        <tr><th></th><th>U. de Chile</th><th>Audax</th><th>Argentino</th></tr>
-        <tr><th>U. Católica</th><td data-key="uc_udechile"></td><td data-key="uc_audax"></td><td data-key="uc_arg"></td></tr>
+        <tr><th></th><th>Universidad de Chile</th><th>Audax Italiano</th><th>Argentina</th></tr>
+        <tr><th>Universidad Catolica</th><td data-key="uc_udechile"></td><td data-key="uc_audax"></td><td data-key="uc_arg"></td></tr>
         <tr><th>Everton</th><td data-key="everton_udechile"></td><td data-key="everton_audax"></td><td data-key="everton_arg"></td></tr>
         <tr><th>Colo Colo</th><td data-key="colo_udechile"></td><td data-key="colo_audax"></td><td data-key="colo_arg"></td></tr>
     </table>
@@ -52,15 +52,15 @@
         const input = document.getElementById("playerInput");
         const player = input.value.trim().toLowerCase();
         const gridKeys = {
-            "uc_udechile": ["universidad católica", "universidad de chile"],
-            "uc_audax": ["universidad católica", "audax italiano"],
-            "uc_arg": ["universidad católica", "argentina"],
-            "everton_udechile": ["everton", "universidad de chile"],
-            "everton_audax": ["everton", "audax italiano"],
-            "everton_arg": ["everton", "argentina"],
-            "colo_udechile": ["colo colo", "universidad de chile"],
-            "colo_audax": ["colo colo", "audax italiano"],
-            "colo_arg": ["colo colo", "argentina"]
+            "uc_udechile": ["Universidad Catolica", "Universidad de Chile"],
+            "uc_audax": ["Universidad Católica", "Audax Italiano"],
+            "uc_arg": ["Universidad Católica", "Argentina"],
+            "everton_udechile": ["Everton", "Universidad de Chile"],
+            "everton_audax": ["Everton", "Audax Italiano"],
+            "everton_arg": ["Everton", "Argentina"],
+            "colo_udechile": ["Colo Colo", "Universidad de Chile"],
+            "colo_audax": ["Colo Colo", "Audax Italiano"],
+            "colo_arg": ["Colo Colo", "Argentina"]
         };
 
         let found = false;
