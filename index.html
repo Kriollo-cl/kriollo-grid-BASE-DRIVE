@@ -48,42 +48,54 @@
     window.onload = cargarDatos;
 
     let filledCells = {};
-    function checkPlayer() {
-        const input = document.getElementById("playerInput");
-        const player = input.value.trim().toLowerCase();
-        const gridKeys = {
-            "uc_udechile": ["Universidad Catolica", "Universidad de Chile"],
-            "uc_audax": ["Universidad Catolica", "Audax Italiano"],
-            "uc_arg": ["Universidad Catolica", "Argentina"],
-            "everton_udechile": ["Everton", "Universidad de Chile"],
-            "everton_audax": ["Everton", "Audax Italiano"],
-            "everton_arg": ["Everton", "Argentina"],
-            "colo_udechile": ["Colo Colo", "Universidad de Chile"],
-            "colo_audax": ["Colo Colo", "Audax Italiano"],
-            "colo_arg": ["Colo Colo", "Argentina"]
-        };
+function checkPlayer() {
+    const input = document.getElementById("playerInput");
+    const player = input.value.trim().toLowerCase();
+    const gridKeys = {
+        "uc_udechile": ["U. Católica", "U. de Chile"],
+        "uc_audax": ["U. Católica", "Audax Italiano"],
+        "uc_arg": ["U. Católica", "Argentina"],
+        "everton_udechile": ["Everton", "U. de Chile"],
+        "everton_audax": ["Everton", "Audax Italiano"],
+        "everton_arg": ["Everton", "Argentina"],
+        "colo_udechile": ["Colo Colo", "U. de Chile"],
+        "colo_audax": ["Colo Colo", "Audax Italiano"],
+        "colo_arg": ["Colo Colo", "Argentina"]
+    };
 
-        let found = false;
-        for (const key in gridKeys) {
-            const [fila, columna] = gridKeys[key];
-            if (!filledCells[key]) {
-                const cumpleFila = datosBase.some(j => j.jugador === player && (j.club.toLowerCase() === fila.toLowerCase() || j.nacionalidad.toLowerCase() === fila.toLowerCase()));
-                const cumpleColumna = datosBase.some(j => j.jugador === player && (j.club.toLowerCase() === columna.toLowerCase() || j.nacionalidad.toLowerCase() === columna.toLowerCase()));
-                if (cumpleFila && cumpleColumna) {
-                    const cell = document.querySelector(`[data-key="${key}"]`);
-                    cell.innerText = input.value.trim();
-                    cell.classList.add("filled");
-                    filledCells[key] = true;
-                    document.getElementById("message").innerText = `✅ ${input.value.trim()} agregado correctamente`;
-                    input.value = "";
-                    found = true;
-                    break;
-                }
+    let found = false;
+    console.log(`Buscando jugador: ${player}`);
+
+    for (const key in gridKeys) {
+        const [fila, columna] = gridKeys[key];
+        if (!filledCells[key]) {
+            const cumpleFila = datosBase.some(j => {
+                const matchFila = (j.club.toLowerCase() === fila.toLowerCase() || j.nacionalidad.toLowerCase() === fila.toLowerCase());
+                console.log(`Fila (${fila}):`, j, matchFila);
+                return j.jugador === player && matchFila;
+            });
+
+            const cumpleColumna = datosBase.some(j => {
+                const matchColumna = (j.club.toLowerCase() === columna.toLowerCase() || j.nacionalidad.toLowerCase() === columna.toLowerCase());
+                console.log(`Columna (${columna}):`, j, matchColumna);
+                return j.jugador === player && matchColumna;
+            });
+
+            if (cumpleFila && cumpleColumna) {
+                const cell = document.querySelector(`[data-key="${key}"]`);
+                cell.innerText = input.value.trim();
+                cell.classList.add("filled");
+                filledCells[key] = true;
+                document.getElementById("message").innerText = `✅ ${input.value.trim()} agregado correctamente`;
+                input.value = "";
+                found = true;
+                break;
             }
         }
-        if (!found) document.getElementById("message").innerText = `❌ ${input.value.trim()} no cumple requisitos o ya está en uso.`;
-        if (Object.keys(filledCells).length === 9) document.getElementById("message").innerText = "🎉 ¡Grid completado!";
     }
+    if (!found) document.getElementById("message").innerText = `❌ ${input.value.trim()} no cumple requisitos o ya está en uso.`;
+    if (Object.keys(filledCells).length === 9) document.getElementById("message").innerText = "🎉 ¡Grid completado!";
+}
 </script>
 
 </body>
