@@ -66,34 +66,7 @@ function checkPlayer() {
         "colo_audax": ["colo colo", "audax italiano"],
         "colo_arg": ["colo colo", "argentina"]
     };
-    }
-    function sugerirJugadores() {
-  const input = document.getElementById("playerInput");
-  const texto = input.value.trim().toLowerCase();
-  const sugerencias = document.getElementById("suggestions");
-  sugerencias.innerHTML = "";
-
-  if (texto.length < 2) return;
-
-  const nombresCoincidentes = datosBase
-    .map(j => j.jugador)
-    .filter((value, index, self) => self.indexOf(value) === index) // eliminar duplicados
-    .filter(nombre => nombre.includes(texto))
-    .slice(0, 10); // máximo 10 sugerencias
-
-  nombresCoincidentes.forEach(nombre => {
-    const li = document.createElement("li");
-    li.textContent = nombre;
-    li.style.cursor = "pointer";
-    li.style.padding = "5px";
-    li.onclick = () => {
-      input.value = nombre;
-      sugerencias.innerHTML = "";
-    };
-    sugerencias.appendChild(li);
-  });
-}
-
+    
     let found = false;
     console.log(`Buscando jugador: ${player}`);
 
@@ -126,6 +99,32 @@ function checkPlayer() {
     }
     if (!found) document.getElementById("message").innerText = `❌ ${input.value.trim()} no cumple requisitos o ya está en uso.`;
     if (Object.keys(filledCells).length === 9) document.getElementById("message").innerText = "🎉 ¡Grid completado!";
+}
+    function sugerirJugadores() {
+  const input = document.getElementById("playerInput");
+  const texto = input.value.trim().toLowerCase();
+  const sugerencias = document.getElementById("suggestions");
+  sugerencias.innerHTML = "";
+
+  if (texto.length < 2) return;
+
+  const nombresCoincidentes = datosBase
+    .map(j => j.jugador)
+    .filter((value, index, self) => self.indexOf(value) === index)
+    .filter(nombre => nombre.includes(texto))
+    .slice(0, 10);
+
+  nombresCoincidentes.forEach(nombre => {
+    const li = document.createElement("li");
+    li.textContent = nombre;
+    li.style.cursor = "pointer";
+    li.style.padding = "5px";
+    li.onclick = () => {
+      input.value = nombre;
+      sugerencias.innerHTML = "";
+    };
+    sugerencias.appendChild(li);
+  });
 }
 </script>
 
