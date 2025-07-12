@@ -91,6 +91,20 @@
       font-size: 16px;
       font-weight: bold;
     }
+    #autocomplete-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#suggestions {
+  width: 280px;
+  margin-top: 5px;
+  position: absolute;
+  top: 100%;
+  z-index: 2;
+}
   </style>
 
 </head>
@@ -103,8 +117,10 @@
         <tr><th>Colo Colo</th><td data-key="colo_udechile"></td><td data-key="colo_audax"></td><td data-key="colo_arg"></td></tr>
     </table>
 
-    <input type="text" id="playerInput" placeholder="Ej: Vargas" oninput="sugerirJugadores()"><br>
-<ul id="suggestions" style="list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto;"></ul>
+    <div id="autocomplete-container">
+  <input type="text" id="playerInput" placeholder="Ej: Vargas" oninput="sugerirJugadores()"><br>
+  <ul id="suggestions"></ul>
+</div>
     <button onclick="checkPlayer()">Ingresar jugador</button>
     <p id="message"></p>
 
