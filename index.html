@@ -17,6 +17,9 @@
         input[type="text"], button { padding: 10px; margin-top: 10px; }
         button { background: #004080; color: white; border: none; cursor: pointer; }
         .filled { background-color: #dff0d8; }
+        #suggestions li:hover {
+  background-color: #f0f0f0;
+}
     </style>
 </head>
 <body>
@@ -28,7 +31,8 @@
         <tr><th>Colo Colo</th><td data-key="colo_udechile"></td><td data-key="colo_audax"></td><td data-key="colo_arg"></td></tr>
     </table>
 
-    <input type="text" id="playerInput" placeholder="Ej: Luis Pedro Figueroa"><br>
+    <input type="text" id="playerInput" placeholder="Ej: Vargas" oninput="sugerirJugadores()"><br>
+<ul id="suggestions" style="list-style:none; padding:0; margin:0; max-height:150px; overflow-y:auto;"></ul>
     <button onclick="checkPlayer()">Ingresar jugador</button>
     <p id="message"></p>
 
@@ -62,6 +66,32 @@ function checkPlayer() {
         "colo_audax": ["colo colo", "audax italiano"],
         "colo_arg": ["colo colo", "argentina"]
     };
+    function sugerirJugadores() {
+  const input = document.getElementById("playerInput");
+  const texto = input.value.trim().toLowerCase();
+  const sugerencias = document.getElementById("suggestions");
+  sugerencias.innerHTML = "";
+
+  if (texto.length < 2) return;
+
+  const nombresCoincidentes = datosBase
+    .map(j => j.jugador)
+    .filter((value, index, self) => self.indexOf(value) === index) // eliminar duplicados
+    .filter(nombre => nombre.includes(texto))
+    .slice(0, 10); // máximo 10 sugerencias
+
+  nombresCoincidentes.forEach(nombre => {
+    const li = document.createElement("li");
+    li.textContent = nombre;
+    li.style.cursor = "pointer";
+    li.style.padding = "5px";
+    li.onclick = () => {
+      input.value = nombre;
+      sugerencias.innerHTML = "";
+    };
+    sugerencias.appendChild(li);
+  });
+}
 
     let found = false;
     console.log(`Buscando jugador: ${player}`);
