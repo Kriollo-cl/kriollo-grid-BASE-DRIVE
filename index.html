@@ -105,6 +105,49 @@
   top: 100%;
   z-index: 2;
 }
+    #autocomplete-wrapper {
+  position: relative;
+  width: 280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#autocomplete-wrapper input {
+  width: 100%;
+}
+
+#autocomplete-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: white;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+#autocomplete-wrapper li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  text-align: left;
+}
+
+#autocomplete-wrapper li:hover {
+  background-color: #f0f0f0;
+}
+
+#autocomplete-wrapper button {
+  margin-top: 60px;
+}
   </style>
 
 </head>
@@ -117,11 +160,11 @@
         <tr><th>Colo Colo</th><td data-key="colo_udechile"></td><td data-key="colo_audax"></td><td data-key="colo_arg"></td></tr>
     </table>
 
-    <div id="autocomplete-container">
-  <input type="text" id="playerInput" placeholder="Ej: Vargas" oninput="sugerirJugadores()"><br>
+    <div id="autocomplete-wrapper">
+  <input type="text" id="playerInput" placeholder="Ej: Vargas" oninput="sugerirJugadores()">
   <ul id="suggestions"></ul>
+  <button onclick="checkPlayer()">Ingresar jugador</button>
 </div>
-    <button onclick="checkPlayer()">Ingresar jugador</button>
     <p id="message"></p>
 
 <script>
